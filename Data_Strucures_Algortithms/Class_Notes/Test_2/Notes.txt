@@ -1,0 +1,464 @@
+Test_2 Notes
+
+Templating:
+
+General:
+ > Parameterization of Data type.
+ > Functions, Classes.
+ > Generic Programming.
+ > All member functions of templates must work for any given data type
+ > Template code is generated when template member function called.
+ > Can have multiple instances of templates.
+ > Want to template data types because some compilers cant distinguish between Type defs and default data types such as int.
+   - Ex. Size_t, int, value_type, double
+   - template <class T1, class T2>
+
+ Pre_proccessor and templates:
+  > strips out comments, makes code ready for compiler.
+  > include implementation file in header file.
+   Ex. #include template.hpp in template.h
+
+ Template Functions:
+     - Template functions and classes need to be written in single file.
+
+  Form:
+    > <type_name T> -> implements a template of data type type_name
+
+  *Function Signature and Overloading:
+    > Overloaded functions have same underlying algorithm.
+    > Return Type Does not effect function signature.
+
+  *Differences in Function Signature:
+    > Name, Parameter List.
+    > Must be made to have the same operations and logical structure.
+
+  Compacting Functions:
+    > specify default values for parameters in function parameter list.
+     - func_name(int dd = 0, double n, char a = 'a')
+
+  Differences in template vs Function overloading:
+   > allows us to parameterize the Values, Data types
+   > normal function overloading only Values can be parameterized.
+
+  *Parameter Signature:
+    - Type, # of Parameters, Order of types.
+
+  *General Rule for Templating:
+   > All operations must be supported. (Overloaded)
+     - Ex. <, >, ==, =, etc...
+   > Class must have appropriate Constructors.
+
+ *Type Name Parameters:
+   > <class T> -> T = type name parameter.
+     - Prefix,
+     - name of type = T
+
+  Passing Values to Template Functions:
+   > must pass and parameterize the value in the function template
+
+   ex: WILL WORK, because function value is being passed and is seen by compiler.
+       template <class T>
+       void func_Name(&T Value)
+
+   ex. WONT WORK, because the compiler doesn't know data type of T and cant convert.
+       template <class T>
+       T func_Name(void)
+
+   Templating a container class:
+    > template def must come before ever function in App or def in Imp file.
+     ex: function:
+        template <class T>
+         function_name(T x, T y)
+     ex:
+        template <class T>
+         Class_Name<T>::Method_Name(T x, T y)
+
+   *Applications:
+     > need to have 2 Class objects of different data types in same program.
+     > Saves from writing 2 separate classes.
+
+   *Parameterization:
+     Parameter vs Variable
+       - Variables and Parameters, not constant.
+       - Parameters are arguments to functions, class member functions.
+       - Makes more General in Abstraction
+
+      *Formal Parameter vs Actual:
+         > Formal:
+           - Refers to variable found in function definition.
+
+         > Actual:
+           - Refers to Actual input passed
+
+  R_T_T_I:
+   > Run_Time_Type_Information
+
+  Quirks:
+
+  Differences Classes, Templates:
+    - only time to write is different.
+
+  *Interface Class:
+    Declaration: template <class T>
+     > all member functions become template functions.
+     > include implementation in header file.
+       - needs to separate interface from implementation, Principal least privilege
+      Ex:
+        OderedPair(T xx=0, T yy=0);
+
+  *Implementation:
+    > does not include the header file again. Make soup to salty
+    > when template is refered to the class. must use angled brackets.
+    > When it has not referered to the class don't use angle bracket.
+
+      Ex:
+       // constructor
+        template <class T>
+        OrderedPair<T>::OrderedPair(T xx, T yy)
+
+       // void return function
+        template <class T>
+         void OrderedPair<T>::functionName(T xx, T yy)
+
+       // object return function
+       // returns data of type template T.
+        template <class T>
+         T OrderedPair<T>::functionName(T xx, T yy)
+
+
+   Application:
+     > using the created template.
+      EX:
+        orderedPair<int> name;
+        orderedPair<double> name2;
+--------------------------------------------------------------------------------
+Big O Notation, Intro to Algorithm Analysis:
+
+  Types of Algorithms Analysis:
+    > Big O, Big Theta, Big Omega
+
+     1. Big O = Worst case. {focus!}
+       - Specifies upper bound.
+
+     2. Big Omega = Best case.
+
+     3. Big Theta = Average Case.
+       - Difficult to determine
+
+  *Big O Definition:
+   > An upper-bound order for the growth rate (of no worse than type) of the
+     resource requirements of an algorithm as input size becomes sufficiently large.
+
+  *Context for Algorithmic Analysis:
+    > Different way to solve same problem.
+    > Efficiency of algorithm given specific inputs.
+      - Time  (temporal)
+      - Space (spacial)
+
+  Scalability:
+   > How well will algorithm perform as problem size doubles?
+
+  Asymptotic Analysis:
+    - Find the area bounded by the function. (Limit of function growth as x gets very large)
+
+  Linear Search Synonyms
+   - Sequential, Linear, Serial
+--------------------------------------------------------------------------------
+10-9-2017
+
+Big O Notation:
+
+  Class Examples:
+    > Picture of In class examples
+
+  Broad-Brushing tool:
+    > Doesn't capture all fine details in algorithms.
+    > Relative, no absolute, depends on size of problem.
+    > Broad relation how algorithm responds in terms of system resources as
+     - n gets sufficiently large(Big as you want).
+
+  Misconceptions:
+    > Nested loops do not determine big o value of the algorithm.
+
+
+  Summation Algorithms:
+    > Sigma = ()(n)*(n+1))/2
+    > Sum of all numbers(ordered)
+
+  Analyses of an Algorithm:
+    > Count the operations, comparisons within the program.
+    > Constants do not have an effect on Big O value.
+    > If values within loops depend on each other, they have higher big o value.
+    > Consider the worst case scenario only!!!!!
+
+  Analysis of Loops
+    > Loops bounded by a constant are run in constant time Big O(1)
+     - for(i = 1; i <= SOME_CONSTANT; i++)
+
+    > Increment only adds to coefficient, not the Big O(n) value, long as its not multiplied. Big O(n)
+     - for(i = 1; i <= n; i+SOME_CONSTANT, i-SOME_CONSTANT)
+      > does not matter what SOME_CONSTANT is
+
+    > if increment is multiplicative/division Big O log(n)
+     - for(i = 1; i <= n; i*=SOME_CONSTANT, i/=SOME_CONSTANT)
+
+    > Big O nlog(n)
+      - for(i = 0; i <= n; i++)
+         for(j = 0; j <= n; j*2)
+           > inner loop is log n, outer is n,
+           > can reverse and still achieve same result.
+
+    > Quadratic BIG O(n^2) {Product rule, n*n}
+     - for(i = 0; i <= n*n; i)
+       > loop runs n*n times
+
+     - for(i = 0; i <= n; i++)
+        for(j = 0; j <= n; j++)
+         > entire inner loop executed when outer loop is incremented once.
+
+  Worst case relationship to Big O:
+    > Tightest possible bound or growth of algorithm. asymptote
+
+--------------------------------------------------------------------------------
+10-11-2017 / 10-16-2017
+
+Linked Lists and arrays Strengths and Weaknesses:
+
+  Definition, Why Linked Lists? Weakness of Arrays:
+
+    > Important Note Data Structures:
+     > No Panacean (Cure all) Data Structures
+      - Take advantage of strengths and minimize weakness.
+
+    > Strengths of Arrays:
+     - Random Access {retrieval and storing takes constant amount of time} Big O(1)
+     - Contiguous chunk of memory
+
+    > Weakness:
+     > Insertion, Deletion, Anomaly
+       - Removing, shift data in array to fill the hole left by deletion.
+       - Adding, shift data in array to insert into specific location.
+
+     > Resizing Woe:
+       - Resizing is expensive operation
+
+    > Explanation of Random Access:
+       - *(data + i) is representation of data[i].
+       - i is offset (displacement), data is origin array (base).
+
+    > Basis for Linked Lists, Singly Linked:
+
+     > Strengths:
+       - Insertion, Deletion, Resizing
+
+     > Weaknesses:
+       - No random Access
+
+     > Non contiguous Data Structure.
+       - All nodes are detached and Pointed to by Previous Pointers.
+
+     > Trivial Ideas:
+       - If list is empty head -> null or 0.
+       - Last element in list -> null or 0.
+       - Every current node keeps track of next link in chain.
+       - Each Node is dynamically allocated.
+
+     > Nodes:
+       - Contains Data, Link Fields.
+       - All Dynamically Allocated.
+
+     > Basis for Null Terminated List:
+       - C-Strings, NULL link marks end of processing '\0'.
+       - Don't need to pass size of list.
+
+     > Passing Head Pointer by value or reference:
+       Value:
+         - Don't want to change the original.
+         - Copy dies when function ends.
+       Reference:
+         - Want to cause a side effect. (want to change value of pointer)
+
+     > Arrow Opperator ->
+       - (*cur).field
+
+     > Short Circuit Evaluation: (order of processing)
+       - and, first is false then entire value is false.
+       - or , first is true then second condition never evaluated
+
+-------------------------------------------------------------------------------
+10-18-2017
+
+Stacks and Queues:
+
+  > Notes:
+   - Both Containers.
+   - palindrome: words spelled the same forwards and in reverse order.
+
+  > Stacks: Last in First Out
+     - Construction
+     - Push = "Moves element to top of the Stack"
+     - Pop  = "Returns element from top of Stack"
+        + (STL) - Does not return, must Top then Pop
+     - Empty = "Inspector if empty"
+     - Top   = "Accessors does not remove, returns value"
+     - Destruction
+
+    > Issues Associated with Stacks:
+      - Stack Underflow -> Trying to pop an element from an empty stack.
+      - Stack Overflow  -> trying to push an element onto the stack when full.
+
+    > Implementation with Linked List:
+      - remove and add at the head node is most efficient.
+      - can be removed in constant time.
+
+    > Implementation with an array:
+      - last element in the array is the top of the stack.
+      - This is because the last element can be accessed in constant time.
+
+  > Queues: (Tunnel) First in First Out
+    - Construction
+    - enQueue / push(STL) = "add element to back end of queue"
+    - deQueue / pop(STL)  = "remove element from front of queue"
+    - Front               = "Inspects element in front of queue and returns"
+    - Empty               = "inspector "
+    - Destruction
+
+  > Implementation with Linked List:
+    - Add at the end of the list, remove from the head, removal is constant time
+    - if a tail pointer is maintained then insertion is also constant time.
+
+  > Issues Associated with Queues:
+   > Queue Underflow -> trying to dequeue an element from an empty array
+   > Queue Overflow -> trying to enqueue an element to a full queue.
+     - only relevant if the queue has a fixed capacity.
+
+  > Stack Usefulness
+   - Reversal
+
+  > Queue Usefulness
+   - Echo,
+
+  > Priority Queue:
+    > Queues based on priority of job to complete.
+    > Implementation
+      - Array of queues, 1 element for each priority level.
+      - While higher priority have elements to print, print those elements.
+      - If the higher priorities are empty, move to next lowest priority.
+
+  > Implementing a Queue with 2 Stacks:
+   - push all values up to first dequeue
+   - push everything from first stack onto outStack if outStack empty.
+   - if outStack is not empty then pop 1 element from the stack on dequeue.
+
+  > Linked List of Linked Lists
+    > Parent List
+     - Data field is head pointer of child node.
+
+    > Child Node
+     - holds the data for the list, int, double, char.
+
+  > Level Traversal, Bredth First Traversal, Non linear Data Structure
+   > Requires a Queue, Why?
+    1: Traverse and enqueue all parent nodes.
+    2: Long as queue is not empty Dequeue 1 Parent Node:
+    3: Inspect the links of the Child Node, if not 0, then print.
+    4: Queue the Parent Node again
+    5: Repeat Until all the Parent Lists are Empty.
+
+  > Depth First Traversal:
+   > Visit all child nodes of parent node before moving to next parent node.
+
+  > Dynamic Arrays to Implement Stack
+   - Top is last element, used - 1
+   - pop then decrement used for top of stack.
+
+  > Linked List to Implement a Stack
+   - Top is the head of the list.
+   - remove and insert at constant time.
+
+  > Implementing Queue using Array:
+   > Next_Index(size_type cur_Ind, size_type Cap)  // handles the wrap around for adding new value.
+     (curr_Ind + 1) % Cap;
+    - Don't fix front to first element,
+    - Tail is the front part of the array
+    - Head is the rear of the array.
+    - Circular Array
+
+  > Implementing Queue With a Linked List:
+     - Maintains head and tail pointer.
+     - Insert at Tail
+     - Remove From head
+     - Head of list = Front of Queue
+     - Tail of list = Rear of Queue
+
+    > General implementation, only maintain a Tail. (f comes before r)
+     - No head Pointer defined, Tail pointer points to the head of the list.
+--------------------------------------------------------------------------------
+Recursion:  10-23-2017 / 10-25-2017
+
+   Def: Function calling another instance of the itself.
+     > Deal with a subject, with the subject appearing in the problem.
+     > Deal with the infinite in a finite expression.
+     > Smaller Problems must be the same kind as the Original Problem.
+     > Must formulate Problem with problems of smaller size of same type.
+     > Form of proof by induction.
+
+  > Recursive Definition of a linked list:
+    > Head node linked to another linked list.
+    > link field of previous node is the head for following linked list.
+
+  > Dividing and Conquer, Reducing and Conquering
+    > Solving smaller problems of the same kind.
+
+  > Procedure for creating algorithm
+    1. Decomposable, smaller problems same type
+    2. Must be Trivial Case.
+    3. Each call must progress towards the desired result.
+    4. Base case must terminate, or be reached.
+
+  > Recursions, Processing/Storage Space:
+    > Control/Call stack stores values in order of calling them, Pops when processing complete.
+    > Function calls are Last in First out.
+    > Calls follow flow of control Stack based,
+     - function call returns to previous function.
+     - Last function to make the call and does not have control returned.
+     - when value is returned pop stack and move to next function on top of stack.
+
+    > Stack Overflow
+     - To many calls can overload control stack and cause crash.
+     - Break point is boundary for stack overflow.
+
+  > Function Calls in control Stack
+    > Activation Record, memory on stack allocated for a function.
+    > Function calls are expensive operations
+
+    > Push
+     - When function called it is pushed onto the stack.
+    > Pop
+     - When function finished it is popped from the stack.
+    > End Case
+     - When main is popped, program is ended.
+
+
+   > Recursive function Example:
+    [
+     int calcSum(int n) // n > 1 Assumed
+      if(n == 1)
+       return 1;
+
+      return n + calcSum(n - 1);
+    ]
+
+  > Tail recursion Definition:
+   - Very last thing the function will do.
+   - The last answer in the recursive algorithm is all that you need.
+   - All other intermediate cases are irrelevant to solving of the problem.
+   - Easily translated into a loop.
+
+
+--------------------------------------------------------------------------------
+10 - 30 - 17
+
+Review Examples Posted on His web-page.
+
+;

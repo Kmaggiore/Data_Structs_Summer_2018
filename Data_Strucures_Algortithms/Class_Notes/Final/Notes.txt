@@ -1,0 +1,510 @@
+Final Notes:
+--------------------------------------------------------------------------------
+11 - 6 - 2017
+
+Topic: Tree's, Recursion:
+
+Indirect Recursion:
+  Def. function that is not recursive, but calls a function that is recursive.
+   > opposite of direct recursion.
+   > passing by reference is an alias.
+
+  Function Example:
+    int FindMin(const int a[], int n){      // indirect recursive function
+      if(n == 1)
+        return a[0];
+
+      int min = a[0];                       // Initialize min
+      findMinR(a + 1, n - 1, &min);         // Call to recursive function
+
+      return min;
+    }
+
+
+    void findMinR(const int a[], int n, int &min){ // recursive function
+
+      if(n >= 1){
+       if(a[0] < min) min = a[0];
+
+        findMinR(a + 1, n - 1, min);
+      }
+    }
+
+Tree's:
+ General:
+  > Non Linear Data Structure.
+  > Tree is special case of graph, Linked List is special case of Tree.
+  > Are containers
+  > Recursively Defined
+
+--------------------------------------------------------------------------------
+11 - 8 - 2017
+
+Most Characteristics or Properties Traits:
+ > Must be recursively applied.
+  - Tree is recursive in nature.
+ >
+
+Balancedness of Trees:
+ > Height of left and right subtree same or off by at most 1, then height ballanced.
+ > Number of Nodes in left and right subtree can differ at most by 1.
+
+Depth First Tree Traversal: READ BOOK!!
+ > When you want to process the root node, before or after left/right subtree.
+
+ > Pre-order
+   - Root Node processed first, then left, then right subtrees.
+
+ > in-Order
+   - Left subtree processed first, then root, then right subtree.
+
+ > post-Order
+   - left and right subtrees processed before the root Node.
+
+ > preFix: +xy
+ > inFix:  x+y
+ > postFix: xy+
+
+
+Binary Search Tree:
+
+ > General:
+  - Storage rules, Where to insert new Nodes.
+  - All nodes inserted in left subtree from root must be less than root node.
+  - All nodes inserted in right subtree must be greater than the root node.
+
+ > Inserting Duplicate Nodes:
+  > Capture all duplicates of Node
+  > Keep counter in Node class that keeps track of the number of duplicates inserted into the tree.
+    - increment when inserted, decrement when deleted, when it hits 0 delete node.
+
+ > Removing from Binary Search Tree:
+  > Removal of leaf nodes are easiest, just remove and set link field of parent to NULL.
+  > One child, Set parent to point to child and assign temp pointer to free the NTBD
+    -
+  > Two Children,
+  > Root, move to right subtree and traverse to the left most node,
+    - Swap value stored in node for that in the root.
+    - Delete the node.
+--------------------------------------------------------------------------------
+Recap Bin Search Trees, Heaps, Heap Sort:
+
+Heaps:
+ General:
+  > Special binary tree,
+  > Always complete binary tree.
+  > heap is always binary search tree.
+  > Still treated as a container.
+  > Removal from the heap sorts the data largest to smallest.
+
+ Terms:
+  > Semi heap: only the root in the heap is not in correct location.
+  > Heapify semi heap = heapify downward.
+
+ Rules:
+  > Structure: Shape Rule, Complete Tree
+  > Storage:   Storage Rule, Parent Node must be larger than any of children.
+    - distinguish, max heap / min heap
+
+ Types of Heaps:
+  > Max Heap:
+   - Children nodes must be <= parent node.
+   - Largest value is always at the root.
+
+  > Min Heap:
+   - Children must be >= parent node.
+
+ Implementing Heap with array:
+  > Parent Position in array is (i-1)/2
+  > left child 2i + 1
+  > right child 2i + 2
+
+ Priority Queue Design:
+  > lower value = higher priority, min heap.
+  > higher value = higher priority, max heap.
+  > highest priority is always at the root.
+
+ Reheap Process:
+   > function to maintain the structure of a heap after insertion or removal.
+
+   def. Heapify Upward(Inserting): Moving child node toward the root if the
+        child is greater than the parent.
+
+   def. Heapify Downward(Removing): Moving last element in the tree to the root.
+        from there compare the children nodes and swap the larger of them for new root
+        node until a leaf node is reached.
+
+
+ Sorting with a heap:
+   > Most efficient = brute force method.
+   > Finding the first non leaf node = used/2 -1
+   1. Create a Heap from the data inserted
+   2. Remove max element and heapify downward.
+
+  With array:
+   1. create heap
+   2. swap the first and last elements and heapify.
+   3. repeat process until values are sorted.
+--------------------------------------------------------------------------------
+11 - 15 - 2017
+
+More Exotic Sorting Algorithms:
+
+ Types of Sorting Algorithms:
+  > Merge Sort
+  > Quick Sort
+
+ Types of Sorting Algorithms:
+   > Insertion Sort On^2
+   > Selection Sort On^2
+   > Bubble Sort    On^2
+
+ Selection Sort:
+   > Select largest or smallest value.
+   > place value in position.
+   > expensive recursively
+
+ Insertion Sort:
+   > Most efficient in general, smaller coefficient in general.
+   > Check existing list, if smaller than existing value insert before, else
+     insert after. Must traverse the list to check and to compare all values
+     in list.
+
+  Insertion Sort on the fly:
+   > Inserting a single value at a time.
+
+  Bubble Sink Sort:
+   > Compare values and swap if necessary.
+   > largest value will bubble to the top after first iteration.
+
+ Merge Sort:
+  > "Divide and Conquer at its best"
+  > Basis:
+   - 2 sorted arrays, or semi sorted arrays.
+   - Break array into to segments and compare the values and insert smallest/largest
+     into the scratch array.
+  > Split the array until you have a sorted array.
+  > compare and sort the smaller lists and merge them together into a larger array.
+  > once there is one list remaining the list is sorted.
+
+  > weaknesses:
+    - double storage, 2 arrays
+
+  > Code:
+    - k = index of z array, i = index of x array, j = index of y array
+
+    void sortMerge(int data[], int n,)
+    {
+      i = 0, j = 0, k = 0; // initialize index
+
+       while(i < n1 && j < n2)
+       {
+         if(x[i] < y[j]){
+          z[k++] = x[i++];    // post increment operator
+         }
+          else
+          {
+            z[k++] = y[j++];
+          }
+       } // end while
+
+       while(i < n1)        // append the rest of the list
+       {
+        z[k++] = x[i++];
+       }
+
+       while(j < n2)        // append the rest of the list
+       {
+        z[k++] = y[j++]
+       }
+    }
+
+ Quick Sort:
+  > Generalized Selection Sort
+  > Treat the values as a set.
+  > subdivide set into 3 subsets, pivot(fulcrum), smaller subset ,larger subset.
+  > pivot divides data in the set.
+  > sort 2 smaller lists, can reapply quick sort.
+  > Worst case O(n^2) selection sort.
+
+  > Picking a correct Pivot:
+   - want to find the median.
+   - pick 3 pivots and find the median of the 3(first, middle, last element).
+   - the median will be the true pivot.
+
+  > Algorithm Analysis:
+   - Partition the list around the pivot.
+   - Once pivot is picked move it out of the way either the far right or left
+     of the list (swap).
+--------------------------------------------------------------------------------
+Hashing:
+
+  Basis:
+    > Uses tables to lookup and find associated data.
+    > Insert and remove are constant time.
+    > Risk of collisions
+    > Want uniform probability of hashing into any spot in table.
+
+  Questions:
+    > How much space is required for data.
+
+  Perfect Hash:
+    > No collisions.
+    > Give no consideration to space efficiency.
+    > all consideration is for time efficiency.
+
+  Load Factor:
+    > what fraction of hash table is in use, 100% = table full.
+    > 70 - 80% want to rehash and lower. allow more data.
+
+  Collisions:
+    > Smaller the hash table to larger prob of collisions.
+    > larger table = greatly minimizes collisions, space inefficient.
+    > makes hash inefficient if number of collisions is great.
+
+  *Factors affecting Collisions, Assuming Open addressing:
+    > Table size(larger minimizes collisions)
+    > Hash function
+    > collision resolution scheme(linear, quadratic probe)
+    > Nature of input.
+    > ETC...
+
+Techniques, Dealing with collisions:
+
+  Linear Probe:
+   > If a collision occurs find next available location to the hash point in the array.
+   > Spot 3 is full, spot 4 is not full so data is mapped to spot 4.
+   > Gaps in data specify where to stop searching
+   > Able to visit all the slots in the hash table.
+
+    Quirks:
+     > don't delete data, could upset collision resolution.
+     > is set value to empty could orphan data after the gap in the data.
+
+    Deleting from Hash Table:
+     > input a different value to indicate this value was removed from the list.
+     > linear probe will keep searching.
+
+  Quadratic Probing:
+   > When a collision occurs, the hash value is squared and put into the next locations.
+   > Step size is multiple of the hash key. (i * i or i ^ 2).
+   > Avoids primary Clustering.
+   > Load factor can not be larger than 50% can not find a place for the data.
+
+  Probe Sequence:
+   > sequence of locations that could hold the value in table.
+
+
+Weaknesses of Probes:
+
+    Primary and Secondary Clustering:
+
+      Primary:
+       - Once data cluster becomes to large it increases the chances of collision.
+       - Each collision increases the chance of secondary collisions.
+       - Find the next door neighbor.
+
+      Secondary:
+       -
+
+     Coverage Issue:
+       - function should cover the entire table.
+
+Hashing Techniques:
+
+  Chain Hashing, Open Hashing:
+   > Array of Linked Lists.
+   > Used array of head pointers to index linked lists to deal with collisions.
+    - Array for random access
+    - Linked list to store excess collisions.
+    - Monitor the size of the linked lists to determine if they need to rehash.
+   > Doesn't have to be a linked list, could be any non linear data structure.
+   > load factor can be more that 1, linked lists!
+
+
+  Closed Hashing, Open Addressing:
+   >
+   >
+
+
+  *Double Hashing:
+   > Contains both primary and secondary hash function.
+     - Primary   -> contains the home locations
+     - Secondary -> contains information to calculate the step size.
+     - Still must apply formula to the value.
+
+   > Secondary Hash
+    - Use a relatively prime secondary value.
+    - Only factors of the values must only have the factor 1 in common. Being '1'.
+
+   > Twin Primes:
+    - Prime numbers that differ by 2,
+     Ex. 811, 809
+
+Collision Resolution Strategy:
+
+  Linear Probe:
+   > Apply hash and find the base location,
+    - if the data is not there, probe linearly until you traverse the whole
+      list or find the data.
+
+  (symbol) Table ADT:
+   > Map, what key maps to which data.
+   > Dictionary
+--------------------------------------------------------------------------------
+Hashing Continued:
+
+
+Important Factors in Choosing Hash Function:
+  1. Want Fast Processing
+  2. Want Equal Possibility of Data Insertion in each location in table.
+     > Hash value Range vs Table Index Range.
+
+Characteristics of Good Hash Function:
+  > Determine hash value from key
+  > Uses the entire key
+  > Distribute Keys Uniformly
+  > Gives different Hash values for similar keys.
+
+Range of Keys, Hash Tables:
+  > Ranges of Keys
+   - range of the values that the hash function can generate for the key values.
+
+  > Range of table Indexes
+   - range of available table indexes.
+
+Hashing with String Values :
+  > Anagram -> Words with the same letters but different order.
+  > Adding Ascii values is bad practice because anagrams will cause collision.
+    - Doesn't cover the whole range
+    - All A's are 650, all Z's are 910
+    - So the range is 650 to 910 does not cover the range of 1000 table size,
+      will cause collisions.
+--------------------------------------------------------------------------------
+Graph Algorithms:
+
+ Basics:
+   > Finite set of nodes with a finite set of links.
+   > DataBases Entity = Node, relationship = Link.
+   > Directed and Undirected
+
+ Terms:
+   > Vertex: used for Node
+   > Edge: used for Link
+   > Loop: edge connecting vertex to itself
+   > Path: sequence of veracities that are connected by links.
+   > Cycle: path that returns to itself
+   > Multiple Edges: 2 nodes may be connected by > 1 edge.
+   > Neighbor: 2 linked nodes neighbors of 1 another.
+   > Adjacent: 2 linked nodes neighbors to 1 another.
+   > Degree:  number of links to nodes in the graph
+   > Out-Degree: number of links coming from each node.
+   > Complete: an edge for each pair of vertices's.
+   > Simple Path: repeats no nodes
+   > simple cycle: cycle and a simple path
+   > simple graph: no loops no, multiple edges.
+   > Connected Graph: path exists between each set of nodes.
+
+ Undirected Graph:
+   > Order of Connection is unimportant
+   > Link specifies 2 way relationship.
+   > Vertices's and Edges are Always Labeled.
+
+ Directed Graph:
+   > Two way connections require 2 links.
+   > v1 -> v2, then v2 !-> v1 unless specified.
+   > referred to as a digraph.
+
+  Trees As Graphs:
+   > undirected (undirected)
+   > acyclic
+   > connected
+--------------------------------------------------------------------------------
+12 - 4 - 2017             Graphs Continued:
+
+ Representation of Graphs:
+
+  Adjacency Matrix, (i , j):
+    > 2 dimensional method to keep track of which nodes are linked.
+      - 1 indicates there is a link between nodes i and j.
+      - 0 indicates there is no link between them.
+      - undirected matrix is symmetrical.
+      - Can be array of array's or array of linked lists.
+
+    > Disadvantages
+      - could be mostly 0 if there are few links and many nodes.
+      - wasteful for sparse graphs.
+
+  Array of Lists:
+    - lists stemming from original array
+
+  Array of Sets:
+    - Only see the links between the nodes. No excess data.
+
+
+  Graph Traversals:
+    > Find all verticies that can be reached from the start by following every
+      possible path.
+    > Only visit the nodes once, mark the node when its been visited.
+      - array of flags, one element for each vertex.
+
+    Level Traversal:
+     - Need a Queue
+     - Print each parents children before moving to next level in graph.
+     - when node discovered it is pushed into queue.
+     - Visited nodes are removed from the queue.
+     - Gives shortest Path
+
+    Depth First Traversal:
+     - Need a Stack
+     - Traverse as far into the graph as possible(depth) and use the stack to
+       back trace.
+     -
+--------------------------------------------------------------------------------
+ Graph Algorithm:
+
+   Dijkstra's Algorithm: (cheapest, fastest path)
+     > Minimum cost path problem, cost = time, money, efficiency.
+     > cost path to all other vertices.
+
+   Dijkstra's Algorithm Analysis:
+     > Keep growing whats known, Pick greedily that which minimizes cumulative cost from source.
+     > Known, Cost of Route, Path taken
+     > Greedy approach(find min cost route from A to B and visit B)
+       - doesnt always work, proven for this alogorithm.
+       - uses local max, min to make decision.
+       - don't back trace!
+
+     > Cumulative value distribution
+      - last edge visited has total path distance.
+
+   Shortest Path: (minimum number of edges)
+     > Smallest distance from home vertex to destination.
+     > minimum number of Edge Nodes to get to destination.
+     > Bredth first traversal.
+
+
+   Minimum Spanning Tree: (Prim) (Krusked, need disjoint set ADT)
+     > Minimum number of edges required to reach all connected Nodes.
+       - want to minimize cost.
+
+     Prims Algorithm: (Minimum Spanning Tree)
+      > keep growing whats known, greedily pick what which minimizes incremental
+        cost to next.
+      > not cumulative!!!
+      > Known, cost, previous
+      > Greedy approach, (find min # of edges to get to destination)
+
+
+
+
+
+
+
+
+
+
+
+
+
+;

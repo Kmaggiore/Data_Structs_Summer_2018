@@ -1,0 +1,455 @@
+Chapter1 Notes in Class
+9-6-2017
+
+
+Contract Oriented Design:
+ - Contract between user and developer, developer and developer.
+
+ Key Ingredients:
+    Pre conditions:  What must be true before function executes.
+     - prototype
+
+    Post conditions: What will be accomplished by the function
+
+    Invarient: Contract between developer and developer.
+
+ Key Words:
+    - Expect: Expected Result
+
+    - Guarantee: Guarentee data is correct.
+
+    - Maintain: Applies to mutators, must maintain a correct state in program.
+
+Functions:
+  - Parentheses are operator in function calls.
+
+  Prototype: Just the header for the function. Abstract, no implementation.
+    ex: double sqrt(double in);
+
+  Accessor vs Mutator:
+    Accessor/Getter: Read only returns value of private data.
+      - cannot provide a side effect on data accessed by invoking object.
+
+    Mutator/Setter:  Allows modification of private data via member functions.
+      - can cause side effects, can read and write.
+      - Changes state of variable object or both.
+
+Expressions:
+  def: culmination of operators and operends.
+
+
+Exceptions:
+  def: error that occurs during run time.
+
+
+Assert Functions: Smallest library available in c.
+  Syn: assert(expression)
+    Example: assert(in>=0)
+    Return val:
+       False:
+          Assertion failure + expression
+
+Input and Output Redirection:
+
+
+Object based:
+  - Data
+  - Encapsulation
+
+Object Oriented:
+  - Inheritance
+  - Polymorphism
+
+C++ support:
+
+  Terms:
+    Modular Programming: practice of breaking down complex program into smaller
+                         independent "modules"
+
+  Separate Compilation: Modular Programming
+    - Separates interface(header file) from implementation.
+
+  Why Separate Interface from Implementation?
+   - Implementation is subject to change depending on requirements.
+     1. Re-usability
+     2. Maintainability
+     3. Manageability
+
+  Inclusion Documentation:
+    1. Macro guard
+     - guard against multiple inclusion of this header file in another application
+       or header file.
+     - Multiple inclusion will cause compilation error.
+     - Data members are defined within the macro guard.
+
+  Makefiles:
+    - Wall -> Turn on all warnings
+
+Class Data Members:
+   Instance -> representation of a specific object.
+     - implemented in each object and stored separately.
+
+   - Object   -> An instance of a class.
+     - implemented as a global constant for all class instances.
+     - Static!!!
+--------------------------------------------------------------------------------
+Input Output Streams: Inheritance Hierarchal,
+                      Child includes properties from parents.
+
+ - Output stream = ostream
+   > ofstream -> output file stream.
+
+ - Input stream  = istream
+   > ifstream -> input file stream
+
+ - Input Output Stream:
+   > IOstream:
+     - cin, cout, cerr, clog
+     - char in, char out.
+--------------------------------------------------------------------------------
+Namespace:
+
+  Def/Purpose: Scoping tool, better able to avoid name conflicts.
+               Everything is defined on global name space, but partitioned into
+               local scope.
+
+  - Never include in header files, could include same line twice.
+  - included into implementation file.
+  - aims to avoid naming conflicts.
+
+
+Constants and Programming Hacks Scope Resolution:
+
+  const:
+    - Protect the invoking object(calling object).
+    - Means to protect.
+    - sends message to compiler, does not change state.
+
+   > void showString(std::ostream& out) const;
+     - Makes it an accessors,
+     - Makes it impossible to modify the data inside function.
+
+  Principal of Least Privilege:
+     - Give everyone absolute min privileges to accomplish the task.
+     - Limit access to data to prevent accidental, purposeful overwrite of data.
+
+  Scoping in Classes: Double Colon: "::"
+     - Scope Resolution Operator.
+     - Defines Class Scope.
+
+
+Parameter Passing Mechanisms:
+
+  3 Ways:
+    Pass by Value: send a copy of the data to the function. (var)
+      - # of bytes: SMALL
+      - side effect: cannot because a copy of the data is sent. doesn't matter if modified.
+
+    Pass by Ref:   send the address of the data to the function. (&var)
+      - # of bytes: (NA)
+      - side effect: can cause, can modify data.
+
+    Passy by const Ref: Send the address of data to the function, but do not allow
+                        it to be modified. (const &var)
+      - # of bytes: BIG
+      - side effect: cannot cause, data is write protected.
+
+
+   In Classes:
+     - If a member variable in a current implementation mirrors the name of a local
+       variable, the local variable will be substituted for the member variable
+       in following code execution.
+
+
+   Big 4:
+      > Default constructor. -> Called on start of program.
+      > Copy constructor     -> Called when copy of object needed.
+      > Destructor.          -> Housekeeping to break down object.
+      > Assignment Operator. -> Used to assign values in program.
+
+
+   This Pointer: *this
+      - Holds the address of the invoking object.
+
+      Example: this->len = class element len;
+
+
+
+ States:
+   Terms:
+     Inconsistent State: Creating an object with a variable initialization state.
+
+     Consistant State:   Creating an object with a constant initialization state.
+--------------------------------------------------------------------------------
+
+  Constructors:
+    3 Properties:
+      - Called Automatically
+      - Same Name as the Class.
+      - No Return Type.
+      - No arguments, parameters.
+
+     Default Constructor:
+       - Initializes object in consistant state.
+       - Called when object created. (initial state)
+
+     Copy Constructor:
+        1. Called When a compiler need a copy of class object.
+           - must be of compatible type.
+
+        2. Equals sign in initialization of new object calls copy constructor.
+           EX: IntSet is2=is1; -> calls constructor.
+
+        !!!!!!!3. When data from a class is passed by value to another function.
+
+  Strings:
+     C-Strings:
+       -> Array of chars with a null char.
+         - look for null char. if it does it is a C-String.
+         - not a member of a class.
+
+     C Char arrays:
+       -> Array with no null termination char.
+         - not a member of string class.
+
+  Friend Functions:
+     -> Granting a non member function access to access and modify private data
+        in class.
+      - Use sparingly, Breaks encapsulation. Allows access to data through
+        un-secure methods.
+      - Meant to improve performance.
+-----------------------------------------------------------------------------------------------------------
+9-17-2017
+
+Operator Overloading:
+  Def: defining default operators to work on class/user-created objects.
+
+  Free Operators:
+    - sizeof()
+    - addressof()
+    - member of '.'
+    - operator  '='
+
+ Big 4,
+  > System does not have Default
+    - Default constructor
+
+  > System will provide if Necessary
+    - Copy constructor  -> Shallow Copy
+    - destructor
+    - operator =        -> Shallow Copy
+
+ Example, how compiler interprets operators:
+  "==":
+    - operater==(s1,s2); or...
+    - s1.operator(s2);
+
+
+Dynamic Vs Compile Time Arrays:
+
+  Dynamic: (exogenous)
+    > Capacity = changeable.
+    > storage constrained by system resources(RAM).
+      - need space to store data
+    > Calls copy constructor.
+    > Allocates additional memory during runtime.
+    > Allocated memory on the heap.
+
+  Compile Time: (indigenous)
+    > Size is fixed.
+      - storage constrained by preset values. (SIZE)
+    > allocated on the control stack
+
+  Dynamic memory Exceptions:
+    > Can throw bad_alloc_exception if memory isn't allocated correctly.
+
+Cloning Data:
+
+  > Don't throw away data because it might not be able to be reallocated.
+    - Ensure memory space available.
+
+  Copy Constructor:
+    When to use:
+      > want a new object out of existing one.
+      > creates "clone" and initializes data to new object.
+
+  Copy Assignment Operator:
+    When to use:
+      > want to assign values from 2 existing objects.
+      > does not create object, merely assigns values from one to the other.
+     !> Function returns value by reference, returns to invoking object.
+      > returns dereference address of invoking object.
+
+    Check:
+      > self-assignment = Aliasing
+      > Check to make sure you're not assigning object itself(waste of time)
+
+
+
+Dangling and Stale Pointers:
+  Dangling: Have no idea where pointer is pointing.
+     > NOT GOOD!!! EVER!!!
+
+  Stale: Know where the pointer is pointing, cant access the data. Illegal
+         memory access.
+      > can reallocate stale pointers.
+
+  NULL:  0 address, cannot read, write. This part in memory is used as reserve for OS.
+     - illegal memory to dereference.
+
+
+Lifetime:
+
+   Construction:
+   Utilization:
+   Destruction:
+
+   Static:
+      > Memory is allocated from program start and remains allocated until
+        program termination.
+
+      > Global Variables
+
+   Automatic:
+      > variables die when the function returns.
+      > Local Variables
+--------------------------------------------------------------------------------
+
+Abstraction vs Concrete:
+
+  Abstraction:
+    What is it?
+     - drop/ignore certain aspects, or certain details/specifics of certain aspects.
+     - Process of becoming more general or specific.
+
+    How it helps:
+     - Manages Complexity
+
+    Parameterization:
+      - use parameters to specify input value.
+      - makes more general in its construction.
+
+    Types:
+      - procedural, control abstraction.
+
+  Concrete:
+    What is it?
+     - works for specific case only.
+
+
+
+
+Top Down, Bottom Up Design, (Approaches, Paradigm):
+
+  Top Down:
+    > Move from general to specific.
+      - Step wise refinement.
+      - action oriented(verbs).
+      - worse for large(complicated) programs.
+      - Procedural Paradigm
+
+  Bottom up:
+    Function:
+      > Move from more specific to more general.
+        - better for large(complicated) programs/problems.
+        - data oriented(nouns).
+        - Object Oriented.
+
+
+Strongly Template Library, (STL):
+
+  What is it?
+    > Library of template containers.
+
+*  3 Ingredient:
+*   1. Template containers implemented using classes.
+*   2. Algorithms: set of functions associated with the given data type.
+*   3. Itterators: Way to traverse data stored in containers.
+
+Itterators:
+
+  Internal:
+    - implemented as member functions in same class.
+
+  External:
+    - implemented in a different class.
+
+  Copy Function:
+    copy(beg_It, end_It, dst_It);
+     > Left Inclusive.[x...y)
+
+Problem Solving:
+
+  3 Steps:
+    1. Input = data
+    2. Processing = Algorithms
+    3. Output = Information
+
+  Making it easier:
+    > Need right type of container.
+
+
+Container Data Structures:
+
+  Actions(functions, Mutators), Storage and Access(Accessors) Techniques:
+    1. HOW is Data represented?
+    2. WHAT operations are supported?
+    3. HOW are operations implemented?
+
+
+Data Types:
+
+  2 Ingredients:
+    > Represents Data
+    > Set of relevant operations.
+      - varies
+
+  Abstract Data Type:
+    > abstract away implementation.
+    > methods are black boxes
+      - know the output is correct, but not how it is performed.
+      - abstracted away.
+
+
+Sets VS Lists, Classic Data Type:
+
+   Set:
+     > cant contain same element twice.
+
+   MultiSet: (Bags)
+     > allows multiple data entries of same value.
+
+   List: (sequence)
+     > order matters!
+
+   Stacks, Queues, Tree's Etc:
+-------------------------------------------------------------------------------
+Additional From Lecture Notes:
+
+  Aliasing:
+    Why?
+      - Using aliases makes naming conventions easier to understand and interpret.
+      - greater chance of not corrupting data of similar types.
+      - aliases more likely to raise flags if different types are added
+        even if the underlying data type is the same.
+
+    EX:
+      typedef unsigned int size_t
+      typedef unsigned int value_t
+
+      > These values have the same underlying data type, but naming convention
+        specified in typedef will cause compiler to throw a error flag.
+
+
+  Separate Compilation:
+
+    Terms:
+       Application file: Main.cpp or file that uses a linked class.
+         - file containing main function
+
+       Interface file:   Header file, outlines methods, does not implement.
+         - header file
+
+       Implementation file: implements the outline in interface file.
+         - .cpp file, same name as header file.
+;
